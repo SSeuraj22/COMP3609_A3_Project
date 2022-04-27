@@ -36,9 +36,9 @@ public class Background {
         return im;
     }
 
-    public void draw(Graphics2D graph2){
-        graph2.drawImage(backImage, background1X, 0, null);
-        graph2.drawImage(backImage, background2X, 0, null);
+    public void draw(Graphics2D graph2, int width, int height){
+        graph2.drawImage(backImage, background1X, 0, width, height, null);
+        graph2.drawImage(backImage, background2X, 0, width, height, null);
     }
 
     public void moveRight(){ //to move background right

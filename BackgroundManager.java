@@ -27,6 +27,10 @@ public class BackgroundManager {
                                      "Images/Background/Level 3/Layer_7.png",
                                      "Images/Background/Level 3/Layer_8.png"};
 
+    private String menuBgImages[] = {"Images/Background/Menu/menu_background.jpg",
+                                     //"Images/Background/Menu/menu_background2.jpg"
+                                    };
+
     private int moveAmount[] = {1, 2, 3, 4, 4, 4, 5, 10}; 
     private JFrame window; //JFrame that background is drawn on
    
@@ -39,13 +43,26 @@ public class BackgroundManager {
     private Background[] backgroundsLvl3;
     private int numImgBgL3;
 
+    private Background[] menuBackgrounds;
+    private int numMenuBg;
+
 
     //Constructor
     public BackgroundManager(JFrame win){
         window = win;
+        loadMenuBg();
         loadBgLevel1();
         loadBgLevel2();
         loadBgLevel3();
+    }
+
+    public void loadMenuBg(){ //load the images for menu background
+        numMenuBg = menuBgImages.length; //number of backgrounds images for menu
+        menuBackgrounds = new Background[numMenuBg];
+
+        for(int count=0; count<numMenuBg; count++){
+            menuBackgrounds[count] = new Background(window, menuBgImages[count], moveAmount[count]); //ignore moveAmount
+        }
     }
 
     public void loadBgLevel1(){ //load the images for level 1 background
@@ -74,6 +91,7 @@ public class BackgroundManager {
             backgroundsLvl3[count] = new Background(window, bgImagesLvl3[count], moveAmount[count]);
         }
     }
+
 
     public void moveRight(int level){
         if(level==1){
@@ -115,24 +133,30 @@ public class BackgroundManager {
                 }
     }
 
-    public void draw(Graphics2D g2, int level){
-        if(level==1){
-            for(int count=0; count<numImgBgL1; count++){
-                backgroundsLvl1[count].draw(g2);
+    public void draw(Graphics2D g2, int level, int width, int height){
+        if(level==0){//for menu background image
+            for(int count=0; count<numMenuBg; count++){
+                menuBackgrounds[count].draw(g2, width, height);
             }
         }
         else
-            if(level==2){
-                for(int count=0; count<numImgBgL2; count++){
-                    backgroundsLvl2[count].draw(g2);
+            if(level==1){
+                for(int count=0; count<numImgBgL1; count++){
+                    backgroundsLvl1[count].draw(g2, width, height);
                 }
             }
             else
-                if(level==3){
-                    for(int count=0; count<numImgBgL3; count++){
-                        backgroundsLvl3[count].draw(g2);
+                if(level==2){
+                    for(int count=0; count<numImgBgL2; count++){
+                        backgroundsLvl2[count].draw(g2, width, height);
                     }
                 }
+                else
+                    if(level==3){
+                        for(int count=0; count<numImgBgL3; count++){
+                            backgroundsLvl3[count].draw(g2, width, height);
+                        }
+                    }
     }
     
 }
