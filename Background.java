@@ -11,6 +11,7 @@ public class Background {
     private int backgroundDX; //number to move background by
     private Image backImage;
     private int backImageWidth; 
+    //private int backImageHeight; 
     private Dimension dimension;
     private int background1X;
     private int background2X;
@@ -19,16 +20,22 @@ public class Background {
         windowFrame = win;
         backImage = loadImage(imageFile);
         backImageWidth = backImage.getWidth(null);
+        //backImageHeight = backImage.getHeight(null);
         //System.out.println ("bgImageWidth = " + backImageWidth);
+        //System.out.println ("bgImageHeight = " + backImageHeight);
 
         dimension = windowFrame.getSize();
-        System.out.println ("Window Width = " + dimension.width);
-        System.out.println ("Window Height = " + dimension.height);
+        //System.out.println ("Window Width = " + dimension.width);
+        //System.out.println ("Window Height = " + dimension.height);
         
         if(backImageWidth<dimension.width){
             System.out.println ("Background Width < panel width ");
         }
         this.backgroundDX = bgDX;
+    }
+
+    public int getBgWidth(){
+        return backImageWidth;
     }
 
     public Image loadImage(String fileName){
@@ -41,7 +48,7 @@ public class Background {
         graph2.drawImage(backImage, background2X, 0, width, height, null);
     }
 
-    public void moveRight(){ //to move background right
+    public void moveRight(){ 
         if (bgX==0) {
             background1X = 0;
             background2X = backImageWidth;            
@@ -51,6 +58,9 @@ public class Background {
         background1X = background1X - backgroundDX;
         background2X = background2X - backgroundDX;
 
+        //String mess = "Right: bgX=" + bgX + " bgX1=" + background1X + " bgX2=" + background2X;
+        //System.out.println (mess);
+
         if((bgX + backImageWidth) % backImageWidth == 0){
             System.out.println ("Background change: bgX = " + bgX); 
             background1X = 0;
@@ -58,7 +68,7 @@ public class Background {
         }
     }
 
-    public void moveLeft(){ //to move background left
+    public void moveLeft(){ 
         if (bgX==0) {
             background1X = backImageWidth * -1;
             background2X = 0;            
@@ -67,6 +77,9 @@ public class Background {
         bgX = bgX + backgroundDX;
         background1X = background1X + backgroundDX;
         background2X = background2X + backgroundDX;
+
+        //String mess = "Left: bgX=" + bgX + " bgX1=" + background1X + " bgX2=" + background2X;
+        //System.out.println (mess);
 
         if((bgX + backImageWidth) % backImageWidth == 0){
             System.out.println ("Background change: bgX = " + bgX); 

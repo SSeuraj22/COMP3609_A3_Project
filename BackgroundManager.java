@@ -140,23 +140,45 @@ public class BackgroundManager {
             }
         }
         else
-            if(level==1){
+            if(level==1){//for level 1 background image
                 for(int count=0; count<numImgBgL1; count++){
                     backgroundsLvl1[count].draw(g2, width, height);
                 }
             }
             else
-                if(level==2){
+                if(level==2){//for level 2 background image
                     for(int count=0; count<numImgBgL2; count++){
                         backgroundsLvl2[count].draw(g2, width, height);
                     }
                 }
                 else
-                    if(level==3){
+                    if(level==3){//for level 3 background image
                         for(int count=0; count<numImgBgL3; count++){
                             backgroundsLvl3[count].draw(g2, width, height);
                         }
                     }
+                    else{
+                        System.out.println("Incorrect number for level...");
+                    }
+    }
+
+    public int getBgImgWidth(int level){
+        int imgWidth;
+        if(level==1){
+            imgWidth = backgroundsLvl1[0].getBgWidth();
+            return imgWidth;
+        }
+        else
+            if(level==2){
+                imgWidth = backgroundsLvl2[0].getBgWidth();
+                return imgWidth;
+            }
+            else
+                if(level==3){
+                    imgWidth = backgroundsLvl3[0].getBgWidth();
+                    return imgWidth;
+                }
+        return 0;
     }
     
 }
