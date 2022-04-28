@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferStrategy; // needed for page flipping
-import java.awt.geom.QuadCurve2D;
+//import java.awt.geom.QuadCurve2D;
 
-public class GameWindow extends JFrame implements Runnable {
+public class GameWindow extends JFrame implements Runnable, KeyListener, MouseListener, MouseMotionListener{
 
     //initialize varibles
     private GraphicsDevice graphDev;
@@ -13,22 +14,34 @@ public class GameWindow extends JFrame implements Runnable {
     private static final int NUM_OF_BUFFERS = 2;
     private BackgroundManager backgManager;
     private Graphics graphScr;
+
     private volatile boolean isRunning = false;
     private volatile boolean isPaused = false;
     //private volatile boolean isStopped = false;
+
     private boolean finishedOff = false;
     private BufferStrategy bufferStrategy;
     private Thread gameThread = null; //this controls the game
 
-    //Menu Buttons
+    //Menu Buttons Images
     private Image startButtonImg;
+    private Image startButtonGreen;
+
     private Image howToPlayButtonImg;
+    private Image howToPlayButtonGreen;
+
     private Image exitButtonImg;
+    private Image exitButtonGreen;
 
     //Bounding rectangles for buttons
     private Rectangle startButtonArea;
     private Rectangle howToPlayButtonArea;
     private Rectangle exitButtonArea;
+
+    //Buttons state for if mouse on button
+    private volatile boolean isOverStartButton = false;
+    private volatile boolean isOverHowToPlayButton = false;
+    private volatile boolean isOverExitButton = false;
 
 
     public GameWindow(){
@@ -36,15 +49,25 @@ public class GameWindow extends JFrame implements Runnable {
         setFullScreen();
 
         startButtonImg = loadImage("Images/start_button.png");
-        howToPlayButtonImg = loadImage("Images/how_to_play_button1.png");
+        startButtonGreen = loadImage("Images/start_button_green.png");
+
+        howToPlayButtonImg = loadImage("Images/how_to_play_button.png");
+        howToPlayButtonGreen = loadImage("Images/how_to_play_button_green.png");
+       
         exitButtonImg = loadImage("Images/exit_button.png");
+        exitButtonGreen = loadImage("Images/exit_button_green.png");
 
         setMenuButtons();
+
+        addKeyListener(this);
+        addMouseListener(this);
+        addMouseMotionListener(this);
 
         buffImage = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_RGB);
         startGame();
     }
 
+    
     private void setFullScreen(){ //to set the screen to full screen
         GraphicsEnvironment graphEnviro = GraphicsEnvironment.getLocalGraphicsEnvironment();
         graphDev = graphEnviro.getDefaultScreenDevice();
@@ -138,7 +161,7 @@ public class GameWindow extends JFrame implements Runnable {
     public void run(){
         try{
             isRunning = true;
-            while (isRunning) {
+            while (isRunning==true) {
                 if (isPaused == false) {
                     gameUpdate();
                 }
@@ -212,18 +235,99 @@ public class GameWindow extends JFrame implements Runnable {
         topOffset = topOffset + startHeight + 40;
         exitButtonArea = new Rectangle(exitXPlacement, topOffset, exitWidth, exitHeight);
 
-
-
     }
 
     private void drawMenuButtons(Graphics g){
-        g.drawImage(startButtonImg, startButtonArea.x, startButtonArea.y, null);
-        g.drawImage(howToPlayButtonImg, howToPlayButtonArea.x, howToPlayButtonArea.y, null);
-        g.drawImage(exitButtonImg, exitButtonArea.x, exitButtonArea.y, null);
+        if(isOverStartButton==true){//if mouse is on start button
+            g.drawImage(startButtonGreen, startButtonArea.x, startButtonArea.y, null);
+        }
+        else{
+            g.drawImage(startButtonImg, startButtonArea.x, startButtonArea.y, null);
+        }
+        
+        if(isOverHowToPlayButton==true){//if mouse is on how to play button
+            g.drawImage(howToPlayButtonGreen, howToPlayButtonArea.x, howToPlayButtonArea.y, null);
+        }
+        else{
+            g.drawImage(howToPlayButtonImg, howToPlayButtonArea.x, howToPlayButtonArea.y, null);
+        }
+        
+        if(isOverExitButton==true){//if mouse is on exit button
+            g.drawImage(exitButtonGreen, exitButtonArea.x, exitButtonArea.y, null);
+        }
+        else{
+            g.drawImage(exitButtonImg, exitButtonArea.x, exitButtonArea.y, null);
+        }   
     }
 
     public Image loadImage(String fileName){
         Image im = new ImageIcon(fileName).getImage();
         return im;
     }
+
+    //methods for the KeyListener interface
+    public void keyPressed(KeyEvent ke){
+
+    }
+
+    public void keyReleased(KeyEvent ke){
+
+    }
+
+    public void keyTyped(KeyEvent ke){
+
+    }
+
+    //methods for the MouseListener interface
+    public void mousePressed(MouseEvent me){
+        //System.out.println("mouse coordinates: x-" + me.getX() + " y- " + me.getY());
+        mousePressedOnButton(me.getX(), me.getY());
+    }
+
+    public void mouseReleased(MouseEvent me){
+
+    }
+
+    public void mouseEntered(MouseEvent me){
+
+    }
+
+    public void mouseExited(MouseEvent me){
+
+    }
+
+    public void mouseClicked(MouseEvent me){
+        
+    }
+
+    //methods for the MouseMotionListener interface
+    public void mouseDragged(MouseEvent mme){
+
+    }
+
+    public void mouseMoved(MouseEvent mme){
+        mouseMovedOnButton(mme.getX(), mme.getY());
+    }
+
+    //To check whether the mouse is on a particular button
+    private void mouseMovedOnButton(int x, int y){
+        if(isRunning==true){
+            //if mouse is in startButtonArea, set isOverStartButton to true else false
+            isOverStartButton = startButtonArea.contains(x, y) ? true : false;
+            isOverHowToPlayButton = howToPlayButtonArea.contains(x, y) ? true : false;
+            isOverExitButton = exitButtonArea.contains(x, y) ? true : false;
+        }
+    }
+
+    private void mousePressedOnButton(int x, int y){
+        if(!isOverExitButton){
+            return;
+        }
+
+        if(isOverExitButton==true){ //if the mouse clicked on the Quit button
+            isRunning = false; //set isRunning to false to terminate the game
+        }
+    }
+
+
 }
