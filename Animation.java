@@ -13,21 +13,83 @@ public class Animation {
     private long totalDuration; //total duration of the animation
     private int x;
     private int y;
-    private int dx = 10; //increment to move along x-axis
-    private int dy = 0; //increment to move along y-axis
+    private int dx; //increment to move along x-axis
+    private int dy; //increment to move along y-axis
     private int width; //width of image for animation
     private int height; //height of image for animation
 
     //Constructor
-    public Animation(JFrame win, int x, int y, int width, int height){
+    public Animation(JFrame win){
         gWindow = win;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        //this.x = x;
+        //this.y = y;
+        //this.width = width;
+        //this.height = height;
         framesAnim = new ArrayList<AnimFrame>();
         totalDuration = 0;
         start(x, y);
+    }
+
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void setY(int y){
+        this.y = y;
+    }
+
+    public void setWidth(int width){
+        this.width = width;
+    }
+
+    public void setHeight(int height){
+        this.height = height;
+    }
+
+    public int getWidth(){
+        return this.width;
+    }
+
+    public int getHeight(){
+        return this.height;
+    }
+
+    public void setDX(int dx){
+        this.dx = dx;
+    }
+
+    public void setDY(int dy){
+        this.dy = dy;
+    }
+
+    public int getAnimWidth(){
+        int widthAnim = 934;
+        int count = 0;
+        for(int i=0;i<framesAnim.size(); i++){
+            Image image = framesAnim.get(0).img;
+            if(image.getWidth(null)==widthAnim){
+                count++;
+            }
+        }
+        if(count==framesAnim.size()){//all the images have the same width
+            return widthAnim;
+        }
+        return 0;//all the images dont have the same width
+    }
+
+    public int getAnimHeight(){
+        int heightAnim = 641;
+        int count = 0;
+        for(int i=0;i<framesAnim.size(); i++){
+            Image image = framesAnim.get(0).img;
+            if(image.getHeight(null)==heightAnim){
+                count++;
+            }
+        }
+        if(count==framesAnim.size()){//all the images have the same height
+            return heightAnim;
+        }
+        return 0;//all the images dont have the same height
     }
 
     //inner class for the frames of the animation

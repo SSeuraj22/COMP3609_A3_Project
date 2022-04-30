@@ -1,0 +1,13 @@
+#Map file for tile-based game (Nightmare before Christmas)
+# (Lines that start with '#' are comments)
+# The tile symbols are:
+#   (Space)  Empty tile
+#   A..T     Tiles A to T
+
+BBBC
+EEEF
+
+                 NOOP
+
+
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBB
