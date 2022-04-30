@@ -306,10 +306,12 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
 
         if((keyCode==KeyEvent.VK_LEFT) || (keyCode==KeyEvent.VK_A)){
             backgManager.moveLeft(1);
+            tileMapLvl1.moveLeft();
         }
         else
             if((keyCode==KeyEvent.VK_RIGHT) || (keyCode==KeyEvent.VK_D)){
                 backgManager.moveRight(1);
+                tileMapLvl1.moveRight();
             }
     }
 

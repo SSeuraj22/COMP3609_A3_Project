@@ -12,7 +12,7 @@ public class Santa {
     private static final int SANTAWIDTH = 50; //width of Santa sprite
     private static final int SANTAHEIGHT = 100; //height of Santa sprite
 
-    private static final int DX = 12; //amount to move Santa on the x axis
+    private static final int DX = 5; //amount to move Santa on the x axis
     private static final int DY = 50; //amount to move Santa on the y axis
 
     private JFrame window;
@@ -82,6 +82,24 @@ public class Santa {
         if (!window.isVisible ()){ 
             return;
         }
+        int sanWidth = playerAnim.getWidth();
+        int tmPixWidth = tileMap.getMapWidthPixels();//tile map width in pixels
+        int santaXPos = x + DX + sanWidth;
+
+        
+        if((santaXPos) <= tmPixWidth){//if player position will be <= tile map width
+            int xAxisTiles = tileMap.pixelsToTiles(santaXPos);
+            int yAxisTiles = tileMap.pixelsToTiles(y) - 1;
+
+            if(tileMap.getTile(xAxisTiles, yAxisTiles)==null){//if there is no tiles on that position 
+                x = x + DX;
+            }
+        }
+        
+        else{
+            x = tmPixWidth - sanWidth - DX;
+        }
+        
     }
 
     public void moveLeft(){

@@ -120,11 +120,11 @@ public class TileMap {
     }
 
     public void moveLeft(){
-
+        santa.moveLeft();
     }
 
     public void moveRight(){
-        
+        santa.moveRight();
     }
 
 }
