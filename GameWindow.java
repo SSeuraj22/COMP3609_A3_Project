@@ -198,7 +198,7 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
 
     public void gameUpdate(){
         //if(!isPaused){
-        //santaAnimIdle.update();
+        tileMapLvl1.updateAnim();
         //santaAnimWalk.update();
         //santaAnimRun.update();
         //santaAnimJump.update();

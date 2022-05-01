@@ -11,7 +11,7 @@ public class TileMap {
     private Dimension dimension; //for screen dimensions
     private Santa santa;
 
-    private static final int TILE_SIZE = 64; //square of size 128 x 128
+    private static final int TILE_SIZE = 64; //size square
 
     //Constructor
     public TileMap(JFrame win, int mWidth, int mHeight){
@@ -116,14 +116,26 @@ public class TileMap {
             }
         }
         //draw santa
-        santa.draw(g2);
+        santa.draw(g2, Math.round(santa.getX()) + xOffset, Math.round(santa.getY()));
+    }
+
+    public void updateAnim(){
+        santa.updateAnim();
     }
 
     public void moveLeft(){
+        //int x;
+        //x = santa.getX();
+        //String mess = "Going left. x = " + x;
+        //System.out.println(mess);
         santa.moveLeft();
     }
 
     public void moveRight(){
+        //int x;
+        //x = santa.getX();
+        //String mess = "Going right. x = " + x;
+        //System.out.println(mess);
         santa.moveRight();
     }
 

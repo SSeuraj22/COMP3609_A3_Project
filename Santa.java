@@ -49,32 +49,42 @@ public class Santa {
 
         santaAnimIdle.setWidth(SANTAWIDTH);
         santaAnimIdle.setHeight(SANTAHEIGHT);
+        santaAnimIdle.setDX(DX);
 
         santaAnimWalk.setWidth(SANTAWIDTH);
         santaAnimWalk.setHeight(SANTAHEIGHT);
+        santaAnimWalk.setDX(DX);
 
         santaAnimRun.setWidth(SANTAWIDTH);
         santaAnimRun.setHeight(SANTAHEIGHT);
+        santaAnimRun.setDX(DX);
 
         santaAnimJump.setWidth(SANTAWIDTH);
         santaAnimJump.setHeight(SANTAHEIGHT);
+        santaAnimJump.setDX(DX);
 
         santaAnimSlide.setWidth(SANTAWIDTH);
         santaAnimSlide.setHeight(SANTAHEIGHT);
+        santaAnimSlide.setDX(DX);
 
         santaAnimDead.setWidth(SANTAWIDTH);
         santaAnimDead.setHeight(SANTAHEIGHT);
+        santaAnimDead.setDX(DX);
 
         playerAnim = santaAnimIdle;
 
-        x = (int) ((window.getWidth() - playerAnim.getAnimWidth()));
+        x = (int) ((window.getWidth() - playerAnim.getAnimWidth())/2);
         y = 380;
     }
 
-    public void draw(Graphics2D g2){
-        santaAnimIdle.setX(x);
-        santaAnimIdle.setY(y);
-        playerAnim.draw(g2);
+    public void draw(Graphics2D g2, int x, int y){
+        playerAnim.setX(x);
+        playerAnim.setY(y);
+        playerAnim.draw(g2, x, y);
+    }
+
+    public void updateAnim(){
+        playerAnim.update();
     }
 
     public void moveRight(){
@@ -82,22 +92,26 @@ public class Santa {
         if (!window.isVisible ()){ 
             return;
         }
-        int sanWidth = playerAnim.getWidth();
-        int tmPixWidth = tileMap.getMapWidthPixels();//tile map width in pixels
-        int santaXPos = x + DX + sanWidth;
-
         
+        int sanWidth = playerAnim.getWidth();
+        //System.out.println("Santa width: " + sanWidth);
+
+        int tmPixWidth = tileMap.getMapWidthPixels();//tile map width in pixels
+        //System.out.println("Tile Map Width: " + tmPixWidth);
+        
+        int santaXPos = x + DX + sanWidth;
+        //System.out.println("Santa Position: " + santaXPos);
+
         if((santaXPos) <= tmPixWidth){//if player position will be <= tile map width
             int xAxisTiles = tileMap.pixelsToTiles(santaXPos);
             int yAxisTiles = tileMap.pixelsToTiles(y) - 1;
 
+            //String mess = "Coordinates in TileMap: (" + xAxisTiles + "," + yAxisTiles + ")";
+            //System.out.println (mess);
+
             if(tileMap.getTile(xAxisTiles, yAxisTiles)==null){//if there is no tiles on that position 
                 x = x + DX;
             }
-        }
-        
-        else{
-            x = tmPixWidth - sanWidth - DX;
         }
         
     }
@@ -112,9 +126,11 @@ public class Santa {
         if ((x - DX) > 0){
             x = x - DX;
         }
+        /*
         else{
             x = 0;
         }
+        */
     }
 
     public Image loadImage(String fileName){

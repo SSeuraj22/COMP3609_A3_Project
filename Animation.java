@@ -2,6 +2,7 @@ import javax.swing.JFrame;
 import java.util.ArrayList;
 import java.awt.Image;
 import java.awt.Graphics2D;
+import java.awt.Dimension;
 
 public class Animation {
     //Declare variables
@@ -17,17 +18,14 @@ public class Animation {
     private int dy; //increment to move along y-axis
     private int width; //width of image for animation
     private int height; //height of image for animation
+    private Dimension dimension;
 
     //Constructor
     public Animation(JFrame win){
         gWindow = win;
-        //this.x = x;
-        //this.y = y;
-        //this.width = width;
-        //this.height = height;
         framesAnim = new ArrayList<AnimFrame>();
         totalDuration = 0;
-        start(x, y);
+        start();
     }
 
     public void setX(int x){
@@ -63,8 +61,10 @@ public class Animation {
     }
 
     public int getAnimWidth(){
-        int widthAnim = 934;
         int count = 0;
+        Image imge = framesAnim.get(0).img;
+        int widthAnim = imge.getWidth(null);
+
         for(int i=0;i<framesAnim.size(); i++){
             Image image = framesAnim.get(0).img;
             if(image.getWidth(null)==widthAnim){
@@ -74,12 +74,15 @@ public class Animation {
         if(count==framesAnim.size()){//all the images have the same width
             return widthAnim;
         }
+        System.out.println("All images don't have the same width....return 0");
         return 0;//all the images dont have the same width
     }
 
     public int getAnimHeight(){
-        int heightAnim = 641;
         int count = 0;
+        Image imge = framesAnim.get(0).img;
+        int heightAnim = imge.getHeight(null);
+
         for(int i=0;i<framesAnim.size(); i++){
             Image image = framesAnim.get(0).img;
             if(image.getHeight(null)==heightAnim){
@@ -89,6 +92,7 @@ public class Animation {
         if(count==framesAnim.size()){//all the images have the same height
             return heightAnim;
         }
+        System.out.println("All images don't have the same height....return 0");
         return 0;//all the images dont have the same height
     }
 
@@ -109,14 +113,14 @@ public class Animation {
         framesAnim.add(new AnimFrame(img, totalDuration));
     }
 
+    
     //Starts this animation over from the beginning.
-    public synchronized void start(int x, int y){
-        this.x = x;
-        this.y = y;
+    public synchronized void start(){
         animTime = 0; //reset the time that the animation has run for to 0
         currFrameIndex = 0; // reset current frame to first frame
         startTime = System.currentTimeMillis(); // reset the start time to current time
     }
+    
 
     //Updates this animation's current image (frame), if neccesary.
     public synchronized void update(){
@@ -135,8 +139,27 @@ public class Animation {
                 currFrameIndex++;
             }
         }
-        //x = x + dx;
+        
+        dimension = gWindow.getSize();
+        int animXPos = x + dx + width; 
+
+        if(animXPos > dimension.width){//dont go beyond the right edge of the screen
+            x = -width;
+        }
+        else{
+            x = x + dx;
+        }
+
+        int animYPos = x + dy; 
+        if(animYPos<= 0){//dont go beyond the top edge of the screen
+            y = height;
+        }
+        else{
+            y = y + dx;
+        }
+        
     }
+    
 
     //Gets this Animation's current image. Returns null if this animation has no images.
     public synchronized Image getImage(){
@@ -154,7 +177,7 @@ public class Animation {
     }
 
     // draw the current frame on the JPanel
-    public void draw(Graphics2D graph2){
+    public void draw(Graphics2D graph2, int x, int y){
         graph2.drawImage(getImage(), x, y, width, height, null);
     }
 }
