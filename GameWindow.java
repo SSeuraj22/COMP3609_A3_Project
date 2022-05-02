@@ -222,7 +222,7 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
             tileMapManager = new TileMapManager(this);
 
             try{
-                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1.txt");
+                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1Map.txt");
                 //tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level2Map.txt");
                 //tileMapLvl3 = tileMapManager.loadTileMap("Maps/Level3Map.txt");
                 int w, h;

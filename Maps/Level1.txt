@@ -11,9 +11,6 @@
 #	%	Ice Cubes
 #	[	Boxes
 #	>	Sign
-
-
-
                             TT
                 T          NOOP
                T T
