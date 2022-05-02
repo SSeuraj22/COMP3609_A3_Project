@@ -232,7 +232,7 @@ public class Santa {
         if (!window.isVisible ()){ 
             return;
         }
-        System.out.println(collideWithTile());
+        //System.out.println(collideWithTile());
         
         int sanWidth = playerAnim.getWidth();
         System.out.println("Santa width: " + sanWidth);
@@ -254,15 +254,15 @@ public class Santa {
                 System.out.println("Point is null");
             }
 
-            //int xAxisTiles = tileMap.pixelsToTiles(santaXPos); //column num
-            //int yAxisTiles = tileMap.pixelsToTiles(y) - 2; //row num
+            int xAxisTiles = tileMap.pixelsToTiles(santaXPos); //column num
+            int yAxisTiles = tileMap.pixelsToTiles(y) - 2; //row num
 
-            //Image tileImg = tileMap.getTile(xAxisTiles, yAxisTiles);
+            Image tileImg = tileMap.getTile(xAxisTiles, yAxisTiles);
 
             
 
-            //String mess = "Coordinates in TileMap: (" + xAxisTiles + "," + yAxisTiles + ")";
-            //System.out.println (mess);
+            String mess = "Coordinates in TileMap: (" + xAxisTiles + "," + yAxisTiles + ")";
+            System.out.println (mess);
 
             
 
