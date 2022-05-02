@@ -198,7 +198,7 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
 
     public void gameUpdate(){
         //if(!isPaused){
-        tileMapLvl1.updateAnim();
+        tileMapLvl1.update();
         //santaAnimWalk.update();
         //santaAnimRun.update();
         //santaAnimJump.update();
@@ -313,6 +313,10 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
                 backgManager.moveRight(1);
                 tileMapLvl1.moveRight();
             }
+            else
+                if(keyCode==KeyEvent.VK_SPACE){
+                    tileMapLvl1.moveJump();
+                }
     }
 
     public void keyReleased(KeyEvent ke){

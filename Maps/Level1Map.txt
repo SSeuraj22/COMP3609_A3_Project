@@ -3,7 +3,6 @@
 # The tile symbols are:
 #   (Space)  Empty tile
 #   A..T     Tiles A to T
-
 BBBC
 EEEF
 

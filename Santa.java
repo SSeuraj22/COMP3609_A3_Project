@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 public class Santa {
     //variables
@@ -13,7 +14,7 @@ public class Santa {
     private static final int SANTAHEIGHT = 100; //height of Santa sprite
 
     private static final int DX = 5; //amount to move Santa on the x axis
-    private static final int DY = 50; //amount to move Santa on the y axis
+    private static final int DY = 10; //amount to move Santa on the y axis
 
     private JFrame window;
     private TileMap tileMap;
@@ -27,11 +28,18 @@ public class Santa {
     private Animation santaAnimDead; //animation sprite for dead santa
 
     private Animation playerAnim;
+    private boolean isJumping;
+    private int timeElapsed;
+    private boolean jumpGoingUp;
+    private boolean jumpGoingDown;
+    int floorY;
 
     //constructor
     public Santa(JFrame jf, TileMap tm){
         window = jf;
         tileMap = tm;
+        isJumping = false;
+        timeElapsed = 0;
 
         santaAnimIdle = null;
         santaAnimWalk = null;
@@ -83,8 +91,104 @@ public class Santa {
         playerAnim.draw(g2, x, y);
     }
 
-    public void updateAnim(){
+    public void update(){
         playerAnim.update();
+        jumping();
+    }
+
+    public void setJump(){
+        if (!window.isVisible ()){ 
+            return;
+        }
+        isJumping = true;
+        timeElapsed = 0;
+        jumpGoingUp = true;
+        jumpGoingDown = false;
+    }
+
+    public void jumping(){
+        int distance;
+
+        if(isJumping==true){//if jumping is false it wont go into the if statement and change the distance
+            timeElapsed++;
+            distance = (int) (80 * timeElapsed - 4.9 * timeElapsed * timeElapsed);
+
+            if((floorY - distance) > y && jumpGoingUp==true){//if the y value starts to get smaller then we know the ball reaches the top
+                jumpGoingUp = false;
+                jumpGoingDown = true;
+            }
+            
+            y = floorY - distance;
+
+            int sanWidth = playerAnim.getWidth();
+            //int tmPixWidth = tileMap.getMapWidthPixels();//tile map width in pixels
+            int santaXPos = x + DX + sanWidth;
+            int xAxisTiles = TileMap.pixelsToTiles(santaXPos);
+            int yAxisTiles = TileMap.pixelsToTiles(y) - 1;
+            Image tile = tileMap.getTile(xAxisTiles, yAxisTiles);
+            int tileOffsetX = tileMap.getOffsetX();
+            int tileOffsetY = tileMap.getOffsetY();
+            if(tile!=null){//if there is no tiles on that position 
+                if(collidesWithTile(TileMap.tilesToPixels(xAxisTiles) + tileOffsetX, TileMap.tilesToPixels(yAxisTiles) + tileOffsetY, tile.getWidth(null), tile.getHeight(null))){
+                    int tileY, tileH, tileBottomY;
+                    tileY = TileMap.tilesToPixels(yAxisTiles);
+                    tileH = tile.getHeight(null);
+                    tileBottomY = tileY + tileH;
+
+                    if(jumpGoingUp==true){
+                        System.out.println ("Jumping: Collision Going Up!");
+                        System.out.println ("y of santa = " + y + " bottom y of tile = " + tileBottomY);
+                        timeElapsed = advanceTime (timeElapsed + 1, distance);
+
+                        jumpGoingUp = false;
+                        jumpGoingDown = true;
+
+                        y = tileY + tileH;
+                        System.out.println ("new y of santa = " + y);
+                    }
+                    else
+                        if(jumpGoingDown==true){
+                            System.out.println ("Jumping: Collision Going Down!");
+                            System.out.println ("y of santa = " + y + " top y of tile = " + tileY);
+                            jumpGoingDown = false;
+                            y = tileY - SANTAHEIGHT; //position the ball on top the wall that was hit on the way down
+                            isJumping = false; //stop jumping
+                        }
+                }
+                else{
+                    System.out.println ("Jumping: No collision.");
+                    System.out.println ("y of santa = " + y);
+                }
+            }
+            else{
+                y = y + DY;
+                System.out.println ("Tile null...");
+            }
+
+            if(y > floorY){ //if the y coordinate passes the floor when coming down
+                y = floorY;
+                isJumping = false;
+            }
+        }
+    }
+
+    private int advanceTime(int currentTime, int distance){
+        int s;
+        while(true){
+            s = (int) (80 * currentTime - 4.9 * currentTime * currentTime);
+            if(s<distance){
+                return currentTime;
+            }
+            else{
+                currentTime++;
+            }
+        }
+    }
+
+    public boolean collidesWithTile(int x, int y, int width, int height){
+        Rectangle2D.Double santaRect = getBoundingRectangle();
+        Rectangle2D.Double tileRect = tileMap.getBoundingSquare(x, y, width, height);
+        return santaRect.intersects(tileRect);
     }
 
     public void moveRight(){
@@ -94,26 +198,51 @@ public class Santa {
         }
         
         int sanWidth = playerAnim.getWidth();
-        //System.out.println("Santa width: " + sanWidth);
+        System.out.println("Santa width: " + sanWidth);
 
         int tmPixWidth = tileMap.getMapWidthPixels();//tile map width in pixels
-        //System.out.println("Tile Map Width: " + tmPixWidth);
+        System.out.println("Tile Map Width: " + tmPixWidth);
         
         int santaXPos = x + DX + sanWidth;
-        //System.out.println("Santa Position: " + santaXPos);
+        System.out.println("Santa Position: " + santaXPos);
 
         if((santaXPos) <= tmPixWidth){//if player position will be <= tile map width
-            int xAxisTiles = tileMap.pixelsToTiles(santaXPos);
-            int yAxisTiles = tileMap.pixelsToTiles(y) - 1;
+            x = x + DX;
+            Point p = getTileCollision(this, santaXPos, y);
+            if(p!=null){
+
+                System.out.println("Point not null");
+            }
+            else{
+                System.out.println("Point is null");
+            }
+
+            //int xAxisTiles = tileMap.pixelsToTiles(santaXPos); //column num
+            //int yAxisTiles = tileMap.pixelsToTiles(y) - 2; //row num
+
+            //Image tileImg = tileMap.getTile(xAxisTiles, yAxisTiles);
+
+            
 
             //String mess = "Coordinates in TileMap: (" + xAxisTiles + "," + yAxisTiles + ")";
             //System.out.println (mess);
 
-            if(tileMap.getTile(xAxisTiles, yAxisTiles)==null){//if there is no tiles on that position 
-                x = x + DX;
-            }
+            
+
+            //if(tileImg==null){//if there is no tiles on that position 
+                //x = x + DX;
+                //System.out.println("tile null");
+            //}
+            //else{
+                //x = x + DX;
+                //boolean collide = collidesWithTile(tileMap.tilesToPixels(xAxisTiles), tileMap.tilesToPixels(yAxisTiles), tileImg.getWidth(null), tileImg.getHeight(null));
+                //System.out.println(collide);
+                //int tileXPix = tileMap.tilesToPixels(xAxisTiles);
+                //x = tileXPix - sanWidth;
+                //System.out.println("tile not null");
+            //}
+
         }
-        
     }
 
     public void moveLeft(){
@@ -131,6 +260,41 @@ public class Santa {
             x = 0;
         }
         */
+    }
+
+    public Point getTileCollision(Santa s, float newX, float newY){
+        float fromX = Math.min(s.getX(), newX);
+        System.out.println("fromX: " + fromX);
+        float fromY = Math.min(s.getY(), newY);
+        System.out.println("fromY: " + fromY);
+        float toX = Math.max(s.getX(), newX);
+        System.out.println("toX: " + toX);
+        float toY = Math.max(s.getY(), newY);
+        System.out.println("toY: " + toY);
+
+        //get the tile locations
+        int fromTileX = TileMap.pixelsToTiles(fromX);
+        System.out.println("fromTileX: " + fromTileX);
+        int fromTileY = TileMap.pixelsToTiles(fromY);
+        System.out.println("fromTileY: " + fromTileY);
+        int toTileX = TileMap.pixelsToTiles(toX + s.getWidth() - 1);
+        System.out.println("toTileX: " + toTileX);
+        int toTileY = TileMap.pixelsToTiles(toY - s.getHeight() - 1);
+        System.out.println("toTileY: " + toTileY);
+
+        //check each tile for a collision
+        for(int x=fromTileX; x<=toTileX; x++){
+            for(int y=fromTileY; y<=toTileY; y++){
+                if(x>0 && x<= tileMap.getMapWidth() && tileMap.getTile(x, y) != null){
+                    //collision found. Return the til 
+                    Point pointCache = new Point();
+                    pointCache.setLocation(x, y);
+                    return pointCache;
+                }
+            }
+        }
+        //no collision found
+        return null;
     }
 
     public Image loadImage(String fileName){
@@ -152,12 +316,22 @@ public class Santa {
 
     public void setX(int x){
         this.x = x;
-        
     }
 
     public void setY(int y){
         this.y = y;
-        
+    }
+
+    public void setFloorY(int y){
+        this.floorY = y;
+    }
+
+    public int getWidth(){
+        return SANTAWIDTH;
+    }
+
+    public int getHeight(){
+        return SANTAHEIGHT;
     }
 
     public Animation getAnimation(){
