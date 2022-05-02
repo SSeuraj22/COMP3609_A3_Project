@@ -13,6 +13,7 @@ public class TileMap {
     private Dimension dimension; //for screen dimensions
     private Santa santa;
     private int offsetX, offsetY;
+    //private int DX = 12;
 
     private static final int TILE_SIZE = 64; //size square
 
@@ -116,16 +117,17 @@ public class TileMap {
         //Draw the visible tiles
         int xFirstTile = pixelsToTiles(-xOffset);//convert xOffset to tiles
         int xLastTile = xFirstTile + pixelsToTiles(screenWidth) + 1; //convert screenWidth to tiles
+        
 
         for(int y=0; y<mapHeight; y++){//num of rows
             for(int x=xFirstTile; x<=xLastTile; x++){//num of columns
                 Image tileImg = getTile(x, y); //get tile at that location
                 if(tileImg!=null){
                     //convert tiles back to pixels and then draw them
-                    g2.drawImage(tileImg, tilesToPixels(x) + xOffset, tilesToPixels(y) + yOffset, null);
-                    //g2.setColor(Color.RED);
-                    //Rectangle2D.Double rect = getBoundingSquare(tilesToPixels(x) + xOffset, tilesToPixels(y) + yOffset, tileImg.getWidth(null), tileImg.getHeight(null));
-                    //g2.drawRect((int) (rect.getX()), (int) (rect.getY()), (int) (rect.getWidth()), (int) (rect.getHeight()));
+                    g2.drawImage(tileImg, tilesToPixels(x)+ xOffset, tilesToPixels(y) + yOffset, null);
+                    g2.setColor(Color.RED);
+                    Rectangle2D.Double rect = getBoundingSquare(tilesToPixels(x) + xOffset, tilesToPixels(y) + yOffset, tileImg.getWidth(null), tileImg.getHeight(null));
+                    g2.drawRect((int) (rect.getX()), (int) (rect.getY()), (int) (rect.getWidth()), (int) (rect.getHeight()));
                 }
             }
         }
@@ -139,6 +141,10 @@ public class TileMap {
 
     public int getOffsetY(){
         return offsetY;
+    }
+
+    public Image[][] getTilesArray(){
+        return tiles;
     }
 
     public void update(){

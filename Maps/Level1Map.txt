@@ -6,7 +6,7 @@
 BBBC
 EEEF
 
-                 NOOP        ABC
-                             DEF
-                             DEF
+          ABC    NOOP        ABC
+          DEF                DEF
+          DEF                DEF
 BBBBBBBBBBBBBBBBBBBBBBBBBBBBBDEFBBBBBBBBBBQQQQQQBBBBBBBBBBBBB

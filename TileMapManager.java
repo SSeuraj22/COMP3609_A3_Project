@@ -75,10 +75,12 @@ public class TileMapManager {
             if(!line.startsWith("#")){//only add the lines without the "#" at the beginning to the textfile
                 linesInText.add(line);
                 mapWidth = Math.max(mapWidth, line.length());
+                //System.out.println(mapWidth);
             }
         }
 
         mapHeight = linesInText.size(); 
+        //System.out.println(mapHeight);
 
         TileMap newTMap = new TileMap(window, mapWidth, mapHeight);
 
