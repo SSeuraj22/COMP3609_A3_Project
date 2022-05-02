@@ -3,7 +3,7 @@ import javax.swing.JFrame;
 import java.awt.Graphics2D;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
-import java.awt.Color;
+// import java.awt.Color;
 
 public class TileMap {
     //Variables
