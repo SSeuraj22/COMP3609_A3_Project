@@ -202,6 +202,7 @@ public class Santa {
         int mapWidth = tileMap.getMapWidth();
         System.out.println("Tiles array length/columns: " + mapWidth);//61
         System.out.println("Tiles array length/rows: " + mapHeight);//7
+        // if()
         for(int i=0; i<mapWidth; i++){
             for(int j=0; j<mapHeight; j++){
                 Image im = tilesArray[i][j];
@@ -209,7 +210,7 @@ public class Santa {
                     //System.out.println("at row " + j + " and col " + i + " is null...");
                 }
                 else{
-                    System.out.println("at row " + j + " and col " + i + " is not null...");
+                    // System.out.println("at row " + j + " and col " + i + " is not null...");
                     int tileX = tileMap.tilesToPixels(x);
                     int tileY = tileMap.tilesToPixels(y);
                     Image tileImage = tilesArray[i][j];
@@ -322,10 +323,13 @@ public class Santa {
         //check each tile for a collision
         for(int x=fromTileX; x<=toTileX; x++){
             for(int y=fromTileY; y<=toTileY; y++){
+                System.out.println("==============" + x + "//////" + y +"///"+ tileMap.getTile(x, y));
+                System.out.println("toTileY: " + toTileY);
                 if(x>0 && x<= tileMap.getMapWidth() && tileMap.getTile(x, y) != null){
                     //collision found. Return the til 
                     Point pointCache = new Point();
                     pointCache.setLocation(x, y);
+                    System.out.println("+++++++++++++++++++: " + pointCache);
                     return pointCache;
                 }
             }

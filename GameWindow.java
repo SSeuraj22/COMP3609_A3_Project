@@ -53,10 +53,13 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
     TileMap tileMapLvl3;
     TileMapManager tileMapManager;
 
+    SoundManager soundManager;
+
     public GameWindow(){
         super("Nightmare before Christmas");
         setFullScreen();
         onMainMenu = true;
+        soundManager = SoundManager.getInstance();
 
         startButtonImg = loadImage("Images/start_button.png");
         startButtonGreen = loadImage("Images/start_button_green.png");
@@ -220,9 +223,9 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
         if(gameThread==null){
             backgManager = new BackgroundManager(this);
             tileMapManager = new TileMapManager(this);
-
+            soundManager.playClip("menu", true);
             try{
-                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1Map.txt");
+                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1.txt");
                 //tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level2Map.txt");
                 //tileMapLvl3 = tileMapManager.loadTileMap("Maps/Level3Map.txt");
                 int w, h;
@@ -316,6 +319,7 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
             else
                 if(keyCode==KeyEvent.VK_SPACE){
                     tileMapLvl1.moveJump();
+                    soundManager.playClip("jump", false);
                 }
     }
 
@@ -376,6 +380,8 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
         if(isOverStartButton==true){
             onMainMenu = false;
             onLevel1 = true;
+            soundManager.stopClip("menu");
+            soundManager.playClip("background", true);
         }
 
         if(isOverExitButton==true){ //if the mouse clicked on the Quit button
