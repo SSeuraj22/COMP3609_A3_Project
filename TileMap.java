@@ -3,7 +3,7 @@ import javax.swing.JFrame;
 import java.awt.Graphics2D;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
-// import java.awt.Color;
+import java.awt.Color;
 
 public class TileMap {
     //Variables
@@ -34,8 +34,8 @@ public class TileMap {
         int x = 192;
         int y = dimension.height - (TILE_SIZE + santaHeight);
         santa.setX(x);
-        santa.setY(y);
-        santa.setFloorY(y);
+        santa.setY(y - santaHeight);
+        santa.setFloorY(y - santaHeight);
     }
 
     //To set a tile at a specific position in the 2D array

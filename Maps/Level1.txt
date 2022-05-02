@@ -5,16 +5,10 @@
 #	1	Bad Guy 1
 #	2	Bad Guy 2
 #	3	Bad Guy 3
-#	!	Goal
-#	@	Stones
-#	^	Trees
-#	%	Ice Cubes
-#	[	Boxes
-#	>	Sign
                             TT
                 T          NOOP
                T T
-
+                                                                   NOOOOOOOOOOOOOP
            ABC     ABBBBBBBBBBBBBBBBBBBC                                                                       ABBBBBBBBBBBBBBBBBBBC
            DEF     DEEEEEEEEEEEEEEEEEEEJKBBBBBBBBBBBBBBBBBBBBBBC                          ABBBBBBBBBBBBBBBBBBBGHEEEEEEEEEEEEEEEEEEEJKBBBBBBBBBBBB
 BBBBBBBBBBBBBBBBBBGHEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEJKBBBBBBBBBBBBBBBBBBBBBBBBGHEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
