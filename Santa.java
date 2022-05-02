@@ -1,7 +1,7 @@
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.Image;
-import java.awt.Dimension;
+// import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.awt.Graphics2D;
 import java.awt.Point;
