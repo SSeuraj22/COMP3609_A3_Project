@@ -4,7 +4,6 @@ import java.awt.Image;
 // import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Color;
 
 public class Santa {
@@ -90,9 +89,6 @@ public class Santa {
         playerAnim.setX(x);
         playerAnim.setY(y);
         playerAnim.draw(g2, x, y);
-        Rectangle2D.Double animRect = playerAnim.getBoundingRectangle();
-        g2.setColor(Color.RED);
-        g2.drawRect((int) (x), (int) (y), SANTAWIDTH, SANTAHEIGHT);
     }
 
     public void update(){
@@ -203,39 +199,6 @@ public class Santa {
         Rectangle2D.Double santaRect = getBoundingRectangle(this.x, this.y);
         Rectangle2D.Double tileRect = tileMap.getBoundingSquare(xT, yT);
         return santaRect.intersects(tileRect);
-    }
-
-    public boolean collideWithTile(){
-        Rectangle2D.Double animRect = playerAnim.getBoundingRectangle();
-        Image[][] tilesArray = tileMap.getTilesArray();
-        int mapHeight = tileMap.getMapHeight();
-        int mapWidth = tileMap.getMapWidth();
-        System.out.println("Tiles array length/columns: " + mapWidth);//61
-        System.out.println("Tiles array length/rows: " + mapHeight);//7
-        // if()
-        for(int i=0; i<mapWidth; i++){
-            for(int j=0; j<mapHeight; j++){
-                Image im = tilesArray[i][j];
-                if(im==null){
-                    //System.out.println("at row " + j + " and col " + i + " is null...");
-                }
-                else{
-                    // System.out.println("at row " + j + " and col " + i + " is not null...");
-                    int tileX = tileMap.tilesToPixels(x);
-                    int tileY = tileMap.tilesToPixels(y);
-                    Image tileImage = tilesArray[i][j];
-                    int imgWidth = tileImage.getWidth(null);
-                    int imgHeight = tileImage.getHeight(null);
-                    Rectangle2D.Double tileRect = tileMap.getBoundingSquare(tileX, tileY);
-                    boolean isCollided = animRect.intersects(tileRect);
-                    if(isCollided==true){
-                        System.out.println("Santa collided with tile at row " + j + " and col " + i);
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     public void moveRight(){
@@ -353,36 +316,6 @@ public class Santa {
             x = 0;
         }
         
-    }
-
-    public Point getTileCollision(Santa s, float newX, float newY){
-        float fromX = Math.min(s.getX(), newX);
-        float fromY = Math.min(s.getY(), newY);
-        float toX = Math.max(s.getX(), newX);
-        float toY = Math.max(s.getY(), newY);
-
-        //get the tile locations
-        int fromTileX = TileMap.pixelsToTiles(fromX);
-        int fromTileY = TileMap.pixelsToTiles(fromY);
-        int toTileX = TileMap.pixelsToTiles(toX + s.getWidth() - 1);
-        int toTileY = TileMap.pixelsToTiles(toY + s.getHeight() - 1);
-
-        //check each tile for a collision
-        for(int x=fromTileX; x<=toTileX; x++){
-            for(int y=fromTileY; y<=toTileY; y++){
-                System.out.println("==============" + x + "//////" + y +"///"+ tileMap.getTile(x, y));
-                System.out.println("toTileY: " + toTileY);
-                if(x>0 && x<= tileMap.getMapWidth() && tileMap.getTile(x, y) != null){
-                    //collision found. Return the tile
-                    Point pointCache = new Point();
-                    pointCache.setLocation(x, y);
-                    System.out.println("+++++++++++++++++++: " + pointCache);
-                    return pointCache;
-                }
-            }
-        }
-        //no collision found
-        return null;
     }
 
     public Image loadImage(String fileName){

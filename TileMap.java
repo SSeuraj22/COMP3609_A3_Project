@@ -3,7 +3,6 @@ import javax.swing.JFrame;
 import java.awt.Graphics2D;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
-import java.awt.Color;
 
 public class TileMap {
     //Variables
@@ -13,7 +12,6 @@ public class TileMap {
     private Dimension dimension; //for screen dimensions
     private Santa santa;
     private int offsetX, offsetY;
-    //private int DX = 12;
 
     private static final int TILE_SIZE = 64; //size square
 
@@ -118,16 +116,12 @@ public class TileMap {
         int xFirstTile = pixelsToTiles(-xOffset);//convert xOffset to tiles
         int xLastTile = xFirstTile + pixelsToTiles(screenWidth) + 1; //convert screenWidth to tiles
         
-
         for(int y=0; y<mapHeight; y++){//num of rows
             for(int x=xFirstTile; x<=xLastTile; x++){//num of columns
                 Image tileImg = getTile(x, y); //get tile at that location
                 if(tileImg!=null){
                     //convert tiles back to pixels and then draw them
                     g2.drawImage(tileImg, tilesToPixels(x)+ xOffset, tilesToPixels(y) + yOffset, null);
-                    g2.setColor(Color.RED);
-                    Rectangle2D.Double rect = getBoundingSquare(tilesToPixels(x) + xOffset, tilesToPixels(y) + yOffset);
-                    g2.drawRect((int) (rect.getX()), (int) (rect.getY()), (int) (rect.getWidth()), (int) (rect.getHeight()));
                 }
             }
         }
@@ -152,24 +146,15 @@ public class TileMap {
     }
 
     public void moveLeft(){
-        //int x;
-        //x = santa.getX();
-        //String mess = "Going left. x = " + x;
-        //System.out.println(mess);
         santa.moveLeft();
     }
 
     public void moveRight(){
-        //int x;
-        //x = santa.getX();
-        //String mess = "Going right. x = " + x;
-        //System.out.println(mess);
         santa.moveRight();
     }
 
     public void moveJump(){
         santa.setJump();
-        //santa.jumping();
     }
 
 }

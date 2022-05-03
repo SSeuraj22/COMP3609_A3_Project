@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch GameApplication",
+            "request": "launch",
+            "mainClass": "GameApplication",
+            "projectName": "816021684 & 816020068_COMP3609_ A3_4ae7781a"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"

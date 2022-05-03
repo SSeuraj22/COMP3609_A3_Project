@@ -338,7 +338,6 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
 
     //methods for the MouseListener interface
     public void mousePressed(MouseEvent me){
-        //System.out.println("mouse coordinates: x-" + me.getX() + " y- " + me.getY());
         mousePressedOnButton(me.getX(), me.getY());
     }
 
@@ -393,6 +392,4 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
             isRunning = false; //set isRunning to false to terminate the game
         }
     }
-
-
 }
