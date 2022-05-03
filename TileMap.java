@@ -34,8 +34,8 @@ public class TileMap {
         int x = 192;
         int y = dimension.height - TILE_SIZE - santaHeight;
         santa.setX(x);
-        santa.setY(y);
-        santa.setFloorY(y);
+        santa.setY(y - santaHeight);
+        santa.setFloorY(y - santaHeight);
     }
 
     //To set a tile at a specific position in the 2D array
