@@ -3,7 +3,7 @@ import javax.swing.JFrame;
 import java.awt.Graphics2D;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
-// import java.awt.Color;
+import java.awt.Color;
 
 public class TileMap {
     //Variables
@@ -32,7 +32,7 @@ public class TileMap {
 
         //to set santa coordinates on the screen for placement
         int x = 192;
-        int y = dimension.height - (TILE_SIZE + santaHeight);
+        int y = dimension.height - TILE_SIZE - santaHeight;
         santa.setX(x);
         santa.setY(y);
         santa.setFloorY(y);
@@ -93,8 +93,8 @@ public class TileMap {
         return mapHeight;
     }
 
-    public Rectangle2D.Double getBoundingSquare(int xTile, int yTile, int width, int height){
-        Rectangle2D.Double tileSquare = new Rectangle2D.Double(xTile, yTile, width, height);
+    public Rectangle2D.Double getBoundingSquare(int xTile, int yTile){
+        Rectangle2D.Double tileSquare = new Rectangle2D.Double(xTile, yTile, TILE_SIZE, TILE_SIZE);
         return tileSquare;
     }
 
@@ -126,7 +126,7 @@ public class TileMap {
                     //convert tiles back to pixels and then draw them
                     g2.drawImage(tileImg, tilesToPixels(x)+ xOffset, tilesToPixels(y) + yOffset, null);
                     g2.setColor(Color.RED);
-                    Rectangle2D.Double rect = getBoundingSquare(tilesToPixels(x) + xOffset, tilesToPixels(y) + yOffset, tileImg.getWidth(null), tileImg.getHeight(null));
+                    Rectangle2D.Double rect = getBoundingSquare(tilesToPixels(x) + xOffset, tilesToPixels(y) + yOffset);
                     g2.drawRect((int) (rect.getX()), (int) (rect.getY()), (int) (rect.getWidth()), (int) (rect.getHeight()));
                 }
             }

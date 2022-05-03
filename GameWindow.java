@@ -317,6 +317,11 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
                 if(keyCode==KeyEvent.VK_SPACE){
                     tileMapLvl1.moveJump();
                 }
+                else
+                    if(keyCode == KeyEvent.VK_ESCAPE){
+                        isRunning = false;        
+                        return;                         
+                    }
     }
 
     public void keyReleased(KeyEvent ke){

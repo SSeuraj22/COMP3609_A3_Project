@@ -84,9 +84,9 @@ public class TileMapManager {
 
         TileMap newTMap = new TileMap(window, mapWidth, mapHeight);
 
-        for(int y=0; y<mapHeight; y++){//traverse through linesInText arraylist
+        for(int y=0; y<mapHeight; y++){//traverse through linesInText arraylist. y is rows
             String line = linesInText.get(y);
-            for(int x=0; x<line.length(); x++){//traverse through the line
+            for(int x=0; x<line.length(); x++){//traverse through the line. x is column
                 char ch = line.charAt(x); //get the char value in the line at the specific index
 
                 int tileNum = ch - 'A';
