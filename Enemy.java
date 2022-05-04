@@ -188,7 +188,7 @@ public class Enemy {
 
     public boolean collidesWithTile(int x, int y, int width, int height){
         Rectangle2D.Double enemyRect = getBoundingRectangle();
-        Rectangle2D.Double tileRect = tileMap.getBoundingSquare(x, y, width, height);
+        Rectangle2D.Double tileRect = tileMap.getBoundingSquare(x, y);
         return enemyRect.intersects(tileRect);
     }
 

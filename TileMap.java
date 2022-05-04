@@ -13,12 +13,12 @@ public class TileMap {
     private Dimension dimension; //for screen dimensions
     private Santa santa;
     private int offsetX, offsetY;
-    //private int DX = 12;
+    public boolean stopBackground = false;
 
     private static final int TILE_SIZE = 64; //size square
 
     //Constructor
-    public TileMap(JFrame win, int mWidth, int mHeight){
+    public TileMap(JFrame win, int mWidth, int mHeight, int tileNumRow){
         window = win;
         mapWidth = mWidth;
         mapHeight = mHeight;
@@ -32,10 +32,10 @@ public class TileMap {
 
         //to set santa coordinates on the screen for placement
         int x = 192;
-        int y = dimension.height - (TILE_SIZE + santaHeight);
+        int y = dimension.height - TILE_SIZE*tileNumRow - santaHeight;
         santa.setX(x);
-        santa.setY(y - santaHeight);
-        santa.setFloorY(y - santaHeight);
+        santa.setY(y);
+        //santa.setFloorY(y - santaHeight);
     }
 
     //To set a tile at a specific position in the 2D array
@@ -93,8 +93,8 @@ public class TileMap {
         return mapHeight;
     }
 
-    public Rectangle2D.Double getBoundingSquare(int xTile, int yTile, int width, int height){
-        Rectangle2D.Double tileSquare = new Rectangle2D.Double(xTile, yTile, width, height);
+    public Rectangle2D.Double getBoundingSquare(int xTile, int yTile){
+        Rectangle2D.Double tileSquare = new Rectangle2D.Double(xTile, yTile, TILE_SIZE, TILE_SIZE);
         return tileSquare;
     }
 
@@ -104,7 +104,7 @@ public class TileMap {
         int screenWidth = dimension.width;
         int screenHeight = dimension.height;
 
-        // get the scrolling position of the map based on player's position
+        //get the scrolling position of the map based on player's position
         int xOffset = screenWidth/2 - Math.round(santa.getX()) - TILE_SIZE;
         xOffset = Math.min(xOffset, 0);
         xOffset = Math.max(xOffset, screenWidth-mapWidthPixels);
@@ -118,21 +118,21 @@ public class TileMap {
         int xFirstTile = pixelsToTiles(-xOffset);//convert xOffset to tiles
         int xLastTile = xFirstTile + pixelsToTiles(screenWidth) + 1; //convert screenWidth to tiles
         
-
         for(int y=0; y<mapHeight; y++){//num of rows
             for(int x=xFirstTile; x<=xLastTile; x++){//num of columns
                 Image tileImg = getTile(x, y); //get tile at that location
                 if(tileImg!=null){
                     //convert tiles back to pixels and then draw them
                     g2.drawImage(tileImg, tilesToPixels(x)+ xOffset, tilesToPixels(y) + yOffset, null);
-                    g2.setColor(Color.RED);
-                    Rectangle2D.Double rect = getBoundingSquare(tilesToPixels(x) + xOffset, tilesToPixels(y) + yOffset, tileImg.getWidth(null), tileImg.getHeight(null));
-                    g2.drawRect((int) (rect.getX()), (int) (rect.getY()), (int) (rect.getWidth()), (int) (rect.getHeight()));
+                    //g2.setColor(Color.RED);
+                    //g2.drawRect(tilesToPixels(x)+xOffset, tilesToPixels(y)+yOffset, tileImg.getWidth(null), tileImg.getHeight(null));
                 }
             }
         }
         //draw santa
-        santa.draw(g2, Math.round(santa.getX()) + xOffset, Math.round(santa.getY()));
+        santa.draw(g2, Math.round(santa.getX())+xOffset, Math.round(santa.getY()));
+        
+        
     }
 
     public int getOffsetX(){
@@ -152,24 +152,15 @@ public class TileMap {
     }
 
     public void moveLeft(){
-        //int x;
-        //x = santa.getX();
-        //String mess = "Going left. x = " + x;
-        //System.out.println(mess);
         santa.moveLeft();
     }
 
     public void moveRight(){
-        //int x;
-        //x = santa.getX();
-        //String mess = "Going right. x = " + x;
-        //System.out.println(mess);
         santa.moveRight();
     }
 
     public void moveJump(){
         santa.setJump();
-        //santa.jumping();
     }
 
 }

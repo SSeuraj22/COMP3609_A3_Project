@@ -225,7 +225,7 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
             tileMapManager = new TileMapManager(this);
             soundManager.playClip("menu", true);
             try{
-                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1.txt");
+                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1Map.txt", 1);
                 //tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level2Map.txt");
                 //tileMapLvl3 = tileMapManager.loadTileMap("Maps/Level3Map.txt");
                 int w, h;
@@ -308,12 +308,17 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
         int keyCode = ke.getKeyCode();
 
         if((keyCode==KeyEvent.VK_LEFT) || (keyCode==KeyEvent.VK_A)){
-            backgManager.moveLeft(1);
+            if(tileMapLvl1.stopBackground==false){
+                backgManager.moveLeft(1);
+            }
             tileMapLvl1.moveLeft();
         }
         else
             if((keyCode==KeyEvent.VK_RIGHT) || (keyCode==KeyEvent.VK_D)){
-                backgManager.moveRight(1);
+                if(tileMapLvl1.stopBackground==false){
+                    backgManager.moveRight(1);
+                }
+                
                 tileMapLvl1.moveRight();
             }
             else
@@ -321,6 +326,11 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
                     tileMapLvl1.moveJump();
                     soundManager.playClip("jump", false);
                 }
+                else
+                    if(keyCode == KeyEvent.VK_ESCAPE){
+                        isRunning = false;        
+                        return;                         
+                    }
     }
 
     public void keyReleased(KeyEvent ke){
@@ -333,7 +343,6 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
 
     //methods for the MouseListener interface
     public void mousePressed(MouseEvent me){
-        //System.out.println("mouse coordinates: x-" + me.getX() + " y- " + me.getY());
         mousePressedOnButton(me.getX(), me.getY());
     }
 
@@ -388,6 +397,4 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
             isRunning = false; //set isRunning to false to terminate the game
         }
     }
-
-
 }
