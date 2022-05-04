@@ -225,7 +225,7 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
             tileMapManager = new TileMapManager(this);
             soundManager.playClip("menu", true);
             try{
-                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1.txt");
+                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1Map.txt", 1);
                 //tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level2Map.txt");
                 //tileMapLvl3 = tileMapManager.loadTileMap("Maps/Level3Map.txt");
                 int w, h;
@@ -308,12 +308,17 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
         int keyCode = ke.getKeyCode();
 
         if((keyCode==KeyEvent.VK_LEFT) || (keyCode==KeyEvent.VK_A)){
-            backgManager.moveLeft(1);
+            if(tileMapLvl1.stopBackground==false){
+                backgManager.moveLeft(1);
+            }
             tileMapLvl1.moveLeft();
         }
         else
             if((keyCode==KeyEvent.VK_RIGHT) || (keyCode==KeyEvent.VK_D)){
-                backgManager.moveRight(1);
+                if(tileMapLvl1.stopBackground==false){
+                    backgManager.moveRight(1);
+                }
+                
                 tileMapLvl1.moveRight();
             }
             else

@@ -7,7 +7,7 @@
 #	3	Bad Guy 3
                             TT
                 T          NOOP
-               T T
+    TTT        T T
                                                                    NOOOOOOOOOOOOOP
            ABC     ABBBBBBBBBBBBBBBBBBBC                                                                       ABBBBBBBBBBBBBBBBBBBC
            DEF     DEEEEEEEEEEEEEEEEEEEJKBBBBBBBBBBBBBBBBBBBBBBC                          ABBBBBBBBBBBBBBBBBBBGHEEEEEEEEEEEEEEEEEEEJKBBBBBBBBBBBB

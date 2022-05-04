@@ -3,6 +3,7 @@ import javax.swing.JFrame;
 import java.awt.Graphics2D;
 import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
+import java.awt.Color;
 
 public class TileMap {
     //Variables
@@ -12,11 +13,12 @@ public class TileMap {
     private Dimension dimension; //for screen dimensions
     private Santa santa;
     private int offsetX, offsetY;
+    public boolean stopBackground = false;
 
     private static final int TILE_SIZE = 64; //size square
 
     //Constructor
-    public TileMap(JFrame win, int mWidth, int mHeight){
+    public TileMap(JFrame win, int mWidth, int mHeight, int tileNumRow){
         window = win;
         mapWidth = mWidth;
         mapHeight = mHeight;
@@ -30,10 +32,10 @@ public class TileMap {
 
         //to set santa coordinates on the screen for placement
         int x = 192;
-        int y = dimension.height - TILE_SIZE - santaHeight;
+        int y = dimension.height - TILE_SIZE*tileNumRow - santaHeight;
         santa.setX(x);
-        santa.setY(y - santaHeight);
-        santa.setFloorY(y - santaHeight);
+        santa.setY(y);
+        //santa.setFloorY(y - santaHeight);
     }
 
     //To set a tile at a specific position in the 2D array
@@ -102,7 +104,7 @@ public class TileMap {
         int screenWidth = dimension.width;
         int screenHeight = dimension.height;
 
-        // get the scrolling position of the map based on player's position
+        //get the scrolling position of the map based on player's position
         int xOffset = screenWidth/2 - Math.round(santa.getX()) - TILE_SIZE;
         xOffset = Math.min(xOffset, 0);
         xOffset = Math.max(xOffset, screenWidth-mapWidthPixels);
@@ -122,11 +124,15 @@ public class TileMap {
                 if(tileImg!=null){
                     //convert tiles back to pixels and then draw them
                     g2.drawImage(tileImg, tilesToPixels(x)+ xOffset, tilesToPixels(y) + yOffset, null);
+                    //g2.setColor(Color.RED);
+                    //g2.drawRect(tilesToPixels(x)+xOffset, tilesToPixels(y)+yOffset, tileImg.getWidth(null), tileImg.getHeight(null));
                 }
             }
         }
         //draw santa
-        santa.draw(g2, Math.round(santa.getX()) + xOffset, Math.round(santa.getY()));
+        santa.draw(g2, Math.round(santa.getX())+xOffset, Math.round(santa.getY()));
+        
+        
     }
 
     public int getOffsetX(){

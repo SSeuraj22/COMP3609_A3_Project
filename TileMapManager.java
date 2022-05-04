@@ -26,7 +26,7 @@ public class TileMapManager {
             System.out.println("Error opening image file " + fileName + "...");
         }
         else{
-            System.out.println("The image file " + fileName + " opened...");
+            //System.out.println("The image file " + fileName + " opened...");
             return new ImageIcon(fileName).getImage();
         }
         return null;
@@ -46,7 +46,7 @@ public class TileMapManager {
                 break; //exit while loop
             }
             else{//file exists
-                System.out.println(fileName + " image file has opened...");
+                //System.out.println(fileName + " image file has opened...");
                 Image tImage = new ImageIcon(fileName).getImage(); //get image for the tile
                 tilesImages.add(tImage); //add image to arraylist
             }
@@ -55,7 +55,7 @@ public class TileMapManager {
     }
 
     //Load tile map with input from text file
-    public TileMap loadTileMap(String fileName) throws IOException{
+    public TileMap loadTileMap(String fileName, int tileNumRow) throws IOException{
         FileReader fr = new FileReader(fileName);//create a file reader for name of the file
         BufferedReader buffRead = new BufferedReader(fr);
 
@@ -82,7 +82,7 @@ public class TileMapManager {
         mapHeight = linesInText.size(); 
         //System.out.println(mapHeight);
 
-        TileMap newTMap = new TileMap(window, mapWidth, mapHeight);
+        TileMap newTMap = new TileMap(window, mapWidth, mapHeight, tileNumRow);
 
         for(int y=0; y<mapHeight; y++){//traverse through linesInText arraylist. y is rows
             String line = linesInText.get(y);
