@@ -11,8 +11,8 @@ public class Enemy {
     private int x, y; // x and y position of the Enemy sprite
     private int maxHealth, curHealth, speed;
     
-    private static final int SANTAWIDTH = 50; //width of Enemy sprite
-    private static final int SANTAHEIGHT = 100; //height of Enemy sprite
+    private static final int ENEMYWIDTH = 50; //width of Enemy sprite
+    private static final int ENEMYHEIGHT = 100; //height of Enemy sprite
 
     private static final int DX = 5; //amount to move Enemy on the x axis
     private static final int DY = 10; //amount to move Enemy on the y axis
@@ -56,28 +56,28 @@ public class Enemy {
         // loadAnimEnemySlide();
         // loadAnimEnemyDead();
 
-        enemyAnimIdle.setWidth(SANTAWIDTH);
-        enemyAnimIdle.setHeight(SANTAHEIGHT);
+        enemyAnimIdle.setWidth(ENEMYWIDTH);
+        enemyAnimIdle.setHeight(ENEMYHEIGHT);
         enemyAnimIdle.setDX(DX);
 
-        enemyAnimWalk.setWidth(SANTAWIDTH);
-        enemyAnimWalk.setHeight(SANTAHEIGHT);
+        enemyAnimWalk.setWidth(ENEMYWIDTH);
+        enemyAnimWalk.setHeight(ENEMYHEIGHT);
         enemyAnimWalk.setDX(DX);
 
-        enemyAnimRun.setWidth(SANTAWIDTH);
-        enemyAnimRun.setHeight(SANTAHEIGHT);
+        enemyAnimRun.setWidth(ENEMYWIDTH);
+        enemyAnimRun.setHeight(ENEMYHEIGHT);
         enemyAnimRun.setDX(DX);
 
-        enemyAnimJump.setWidth(SANTAWIDTH);
-        enemyAnimJump.setHeight(SANTAHEIGHT);
+        enemyAnimJump.setWidth(ENEMYWIDTH);
+        enemyAnimJump.setHeight(ENEMYHEIGHT);
         enemyAnimJump.setDX(DX);
 
-        enemyAnimSlide.setWidth(SANTAWIDTH);
-        enemyAnimSlide.setHeight(SANTAHEIGHT);
+        enemyAnimSlide.setWidth(ENEMYWIDTH);
+        enemyAnimSlide.setHeight(ENEMYHEIGHT);
         enemyAnimSlide.setDX(DX);
 
-        enemyAnimDead.setWidth(SANTAWIDTH);
-        enemyAnimDead.setHeight(SANTAHEIGHT);
+        enemyAnimDead.setWidth(ENEMYWIDTH);
+        enemyAnimDead.setHeight(ENEMYHEIGHT);
         enemyAnimDead.setDX(DX);
 
         playerAnim = enemyAnimIdle;
@@ -152,7 +152,7 @@ public class Enemy {
                             System.out.println ("Jumping: Collision Going Down!");
                             System.out.println ("y of enemy = " + y + " top y of tile = " + tileY);
                             jumpGoingDown = false;
-                            y = tileY - SANTAHEIGHT; //position the ball on top the wall that was hit on the way down
+                            y = tileY - ENEMYHEIGHT; //position the ball on top the wall that was hit on the way down
                             isJumping = false; //stop jumping
                         }
                 }
@@ -304,7 +304,7 @@ public class Enemy {
     }
 
     public Rectangle2D.Double getBoundingRectangle(){
-        return new Rectangle2D.Double(x, y, SANTAWIDTH, SANTAHEIGHT);
+        return new Rectangle2D.Double(x, y, ENEMYWIDTH, ENEMYHEIGHT);
     }
 
     public int getX(){
@@ -328,11 +328,11 @@ public class Enemy {
     }
 
     public int getWidth(){
-        return SANTAWIDTH;
+        return ENEMYWIDTH;
     }
 
     public int getHeight(){
-        return SANTAHEIGHT;
+        return ENEMYHEIGHT;
     }
 
     public Animation getAnimation(){
