@@ -45,7 +45,7 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
 
     //state variables for parts of the game
     private volatile boolean onMainMenu = false;
-    public boolean onLevel1 = false;
+    public static boolean onLevel1 = false;
     public boolean onLevel2 = false;
 
     //For tiles
@@ -194,6 +194,11 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
     }
 
     public void gameUpdate(){
+        if(tileMapLvl1.santa.finishedLevel==true){
+            onLevel1 = false;
+            onLevel2 = true;
+        }
+
         if(onLevel1==true){
             tileMapLvl1.update();
         }
@@ -217,16 +222,14 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
             tileMapManager = new TileMapManager(this);
             soundManager.playClip("menu", true);
             try{
-                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1.txt", 1);
-                tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level2Map.txt", 2);
-                //tileMapLvl3 = tileMapManager.loadTileMap("Maps/Level3Map.txt");
+                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1Map.txt", 1);
+                tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level1.txt", 2);
                 int w1, h1, w2, h2;
                 w1 = tileMapLvl1.getMapWidth();
                 h1 = tileMapLvl1.getMapHeight();
                 w2 = tileMapLvl2.getMapWidth();
                 h2 = tileMapLvl2.getMapHeight();
-                //System.out.println ("Width of tilemap " + w);
-                //System.out.println ("Height of tilemap " + h);
+                
             }
             catch(Exception ex){
                 System.out.println(ex);
@@ -302,23 +305,47 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
         int keyCode = ke.getKeyCode();
 
         if((keyCode==KeyEvent.VK_LEFT) || (keyCode==KeyEvent.VK_A)){
-            if(tileMapLvl1.stopBackground==false){
-                backgManager.moveLeft(1);
+            if(onLevel1==true){
+                tileMapLvl1.moveLeft();
+                if(tileMapLvl1.stopBackground==false){
+                    backgManager.moveLeft(1);
+                }
             }
-            tileMapLvl1.moveLeft();
+            else    
+                if(onLevel2==true){
+                    tileMapLvl2.moveLeft();
+                    if(tileMapLvl2.stopBackground==false){
+                        backgManager.moveLeft(2);
+                    }
+                }
         }
         else
             if((keyCode==KeyEvent.VK_RIGHT) || (keyCode==KeyEvent.VK_D)){
-                if(tileMapLvl1.stopBackground==false){
-                    backgManager.moveRight(1);
+                if(onLevel1==true){
+                    tileMapLvl1.moveRight();
+                    if(tileMapLvl1.stopBackground==false){
+                        backgManager.moveRight(1);
+                    }
                 }
-                
-                tileMapLvl1.moveRight();
+                else
+                    if(onLevel2==true){
+                        tileMapLvl2.moveRight();
+                        if(tileMapLvl2.stopBackground==false){
+                            backgManager.moveRight(2);
+                        }
+                    }
             }
             else
                 if(keyCode==KeyEvent.VK_SPACE){
-                    tileMapLvl1.moveJump();
-                    soundManager.playClip("jump", false);
+                    if(onLevel1==true){
+                        tileMapLvl1.moveJump();
+                        soundManager.playClip("jump", false);
+                    }
+                    else
+                        if(onLevel2==true){
+                            tileMapLvl2.moveJump();
+                            soundManager.playClip("jump", false);
+                        }
                 }
                 else
                     if(keyCode==KeyEvent.VK_ESCAPE){
@@ -327,7 +354,13 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
                     }
                     else
                         if(keyCode==KeyEvent.VK_Z){
-                            tileMapLvl1.attack(this);
+                            if(onLevel1==true){
+                                tileMapLvl1.attack(this);
+                            }
+                            else    
+                                if(onLevel2==true){
+                                    tileMapLvl2.attack(this);
+                                }
                         }
     }
 
