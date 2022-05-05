@@ -29,7 +29,7 @@ public class Background {
         //System.out.println ("Window Height = " + dimension.height);
         
         if(backImageWidth<dimension.width){
-            System.out.println ("Background Width < panel width ");
+            //System.out.println ("Background Width < panel width ");
         }
         this.backgroundDX = bgDX;
     }
@@ -62,7 +62,7 @@ public class Background {
         //System.out.println (mess);
 
         if((bgX + backImageWidth) % backImageWidth == 0){
-            System.out.println ("Background change: bgX = " + bgX); 
+            //System.out.println ("Background change: bgX = " + bgX); 
             background1X = 0;
             background2X = backImageWidth;
         }
@@ -82,7 +82,7 @@ public class Background {
         //System.out.println (mess);
 
         if((bgX + backImageWidth) % backImageWidth == 0){
-            System.out.println ("Background change: bgX = " + bgX); 
+            //System.out.println ("Background change: bgX = " + bgX); 
             background1X = backImageWidth * -1;
             background2X = 0;
         }

@@ -11,7 +11,7 @@ public class TileMap {
     private int mapWidth, mapHeight;//2D array size
     private JFrame window;
     private Dimension dimension; //for screen dimensions
-    private Santa santa;
+    public Santa santa;
     private int offsetX, offsetY;
     public boolean stopBackground = false;
 
@@ -28,7 +28,7 @@ public class TileMap {
 
         Animation santaAnim = santa.getAnimation();
         int santaHeight = santaAnim.getHeight();
-        System.out.println("Santa Height: " + santaHeight);
+        //System.out.println("Santa Height: " + santaHeight);
 
         //to set santa coordinates on the screen for placement
         int x = 192;
@@ -36,6 +36,10 @@ public class TileMap {
         santa.setX(x);
         santa.setY(y);
         //santa.setFloorY(y - santaHeight);
+    }
+
+    public void attack(JFrame jf){
+        santa.attack(jf);
     }
 
     //To set a tile at a specific position in the 2D array

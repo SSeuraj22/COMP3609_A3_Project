@@ -9,7 +9,7 @@ public class Santa {
     //variables
     private int x, y; // x and y position of the Santa sprite
     
-    private static final int SANTAWIDTH = 55; //width of Santa sprite
+    private static final int SANTAWIDTH = 60; //width of Santa sprite
     private static final int SANTAHEIGHT = 100; //height of Santa sprite
 
     private int DX = 12; //amount to move Santa on the x axis
@@ -33,13 +33,18 @@ public class Santa {
     private boolean jumpGoingDown;
     int floorY = 0;
 
+    private Snowball snowB;
+    private boolean throwSnow = false;
+    public boolean finishedLevel = false;
+
     //constructor
     public Santa(JFrame jf, TileMap tm){
         window = jf;
         tileMap = tm;
         isJumping = false;
         timeElapsed = 0;
-
+        
+        //snowB = new Snowball(jf, tileMap);
         santaAnimIdle = null;
         santaAnimWalk = null;
         santaAnimRun = null;
@@ -53,7 +58,7 @@ public class Santa {
         loadAnimSantaJump();
         loadAnimSantaSlide();
         loadAnimSantaDead();
-
+        
         santaAnimIdle.setWidth(SANTAWIDTH);
         santaAnimIdle.setHeight(SANTAHEIGHT);
         santaAnimIdle.setDX(DX);
@@ -87,7 +92,13 @@ public class Santa {
     public void draw(Graphics2D g2, int x, int y){
         playerAnim.setX(x);
         playerAnim.setY(y);
+        
         playerAnim.draw(g2, x, y);
+        if(throwSnow==true){
+            snowB.draw(g2);
+            //snowB.moveRight();
+        }
+
         //g2.setColor(Color.RED);
         //g2.drawRect(x, y-5, SANTAWIDTH, SANTAHEIGHT/20);//above santa
         //g2.drawRect(x, y, SANTAWIDTH, SANTAHEIGHT);//on santa
@@ -99,6 +110,19 @@ public class Santa {
     public void update(){
         playerAnim.update();
         jumping();
+        if(throwSnow==true){
+            snowB.moveRight();
+            snowB.update();
+        }
+        //System.out.println("Update");
+    }
+
+    public void attack(JFrame jf){
+            snowB = new Snowball(jf, this);
+            snowB.setX(x+SANTAWIDTH+5);
+            snowB.setY(y+15);
+            throwSnow = true;
+            snowB.setTileMap(tileMap);
     }
 
     public void setJump(){
@@ -115,6 +139,7 @@ public class Santa {
         int distance;
 
         if(isJumping==true){
+            playerAnim = santaAnimJump;
             if(DX==0){
                 DX = 12;
             }
@@ -211,6 +236,7 @@ public class Santa {
             }
         }
         else{//if isJumping==false
+            playerAnim = santaAnimIdle;
             int xOffset = tileMap.getOffsetX();
             int yOffset = tileMap.getOffsetY();
             int firstTile = TileMap.pixelsToTiles(-xOffset);
@@ -293,15 +319,18 @@ public class Santa {
                         boolean isIntersect = sRect.intersects(tileSqu);
 
                         if(isIntersect){
+                            tileMap.stopBackground = true;
                             DX = 0;
                             x = xTilePix - SANTAWIDTH;
                             iscollided = true;
                             break;
                         }
                         else{
+                            tileMap.stopBackground = false;
                         }
                     }
                     else{//if img==null
+                        tileMap.stopBackground = false;
                     }
                 }
             }
@@ -312,6 +341,8 @@ public class Santa {
         else{
             x = tileMWidth - SANTAWIDTH;
             tileMap.stopBackground = true;
+            finishedLevel = true;
+            
         }
     }
 
@@ -326,7 +357,7 @@ public class Santa {
         if(tileMap.stopBackground==true){
             tileMap.stopBackground = false;
         }
-        
+
         if ((x - DX) > 0){
             x = x - DX;
             int xOffset = tileMap.getOffsetX();
@@ -347,6 +378,7 @@ public class Santa {
                         boolean isIntersect = sRect.intersects(tileSqu);
 
                         if(isIntersect){
+                            tileMap.stopBackground = true;
                             DX = 0;
                             //System.out.println("true");
                             //System.out.println("yAx: " + yAx);
@@ -356,10 +388,12 @@ public class Santa {
                             break;
                         }
                         else{
+                            tileMap.stopBackground = false;
                             //System.out.println("false");
                         }
                     }
                     else{//if img==null
+                        tileMap.stopBackground = false;
                     }
                 }
             }

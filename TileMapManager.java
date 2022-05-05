@@ -3,12 +3,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.*;
 import java.io.*;
+import java.awt.geom.AffineTransform;
 
 
 public class TileMapManager {
     //Variables
     private ArrayList<Image> tilesImages; //consists of the images for the tiles
     private JFrame window;
+    private GraphicsConfiguration gc;
 
     //Constructor
     public TileMapManager(JFrame win){
@@ -97,4 +99,36 @@ public class TileMapManager {
         }
         return newTMap;
     }
+
+    public Image getMirrorImage(Image image) {
+        return getScaledImage(image, -1, 1);
+    }
+
+    public Image getFlippedImage(Image image) {
+        return getScaledImage(image, 1, -1);
+    }
+
+    private Image getScaledImage(Image image, float x, float y) {
+
+        // set up the transform
+        AffineTransform transform = new AffineTransform();
+        transform.scale(x, y);
+        transform.translate(
+            (x-1) * image.getWidth(null) / 2,
+            (y-1) * image.getHeight(null) / 2);
+
+        // create a transparent (not translucent) image
+        Image newImage = gc.createCompatibleImage(
+            image.getWidth(null),
+            image.getHeight(null),
+            Transparency.BITMASK);
+
+        // draw the transformed image
+        Graphics2D g = (Graphics2D)newImage.getGraphics();
+        g.drawImage(image, transform, null);
+        g.dispose();
+
+        return newImage;
+    }
+
 }

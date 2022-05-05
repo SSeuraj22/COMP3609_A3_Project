@@ -45,7 +45,8 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
 
     //state variables for parts of the game
     private volatile boolean onMainMenu = false;
-    private volatile boolean onLevel1 = false;
+    public boolean onLevel1 = false;
+    public boolean onLevel2 = false;
 
     //For tiles
     TileMap tileMapLvl1;
@@ -124,17 +125,9 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
         if(onMainMenu==true){
             backgManager.draw(gImage, 0, screenWidth, screenHeight);
 
-            //QuadCurve2D.Double menuCurve = new QuadCurve2D.Double(screenWidth * 0.50, 0, screenWidth * 0.732, screenHeight/2, screenWidth * 0.50, screenHeight);
-            //gImage.setColor(Color.WHITE);
-            //gImage.setStroke(new BasicStroke(5)); //set thickness of line
-            //gImage.draw(menuCurve);
-
             Font font = new Font("Chiller", Font.BOLD, 100);
             gImage.setFont(font);
             gImage.drawString("Nightmare Before Christmas", screenWidth/10, (int) (screenHeight/8.5));
-            //gImage.drawString("Nightmare", screenWidth/4, (int) (screenHeight/2.9));
-            //gImage.drawString("Before", screenWidth/4, screenHeight/2);
-            //gImage.drawString("Christmas", screenWidth/4, (int) (screenHeight/1.5));
 
             drawMenuButtons(gImage);
         }
@@ -143,12 +136,13 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
                 int bgWidth = backgManager.getBgImgWidth(1);
                 backgManager.draw(gImage, 1, bgWidth, screenHeight);
                 tileMapLvl1.draw(gImage);
-                //santaAnimIdle.draw(gImage); //draw santa idle animation
-                //santaAnimWalk.draw(gImage); //draw santa walk animation
-                //santaAnimRun.draw(gImage); //draw santa run animation
-                //santaAnimJump.draw(gImage); //draw santa jump animation
-                //santaAnimSlide.draw(gImage); //draw santa slide animation
-                //santaAnimDead.draw(gImage); //draw santa dead animation
+            }
+            else{
+                if(onLevel2==true){
+                    int bgWidth = backgManager.getBgImgWidth(2);
+                    backgManager.draw(gImage, 2, bgWidth, screenHeight);
+                    tileMapLvl2.draw(gImage);
+                }
             }
         
 
@@ -200,15 +194,13 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
     }
 
     public void gameUpdate(){
-        //if(!isPaused){
-        tileMapLvl1.update();
-        //santaAnimWalk.update();
-        //santaAnimRun.update();
-        //santaAnimJump.update();
-        //santaAnimSlide.update();
-        //santaAnimDead.update();
-
-        //}
+        if(onLevel1==true){
+            tileMapLvl1.update();
+        }
+        else
+            if(onLevel2==true){
+                tileMapLvl2.update();
+            }
     }
 
     private void finishOff(){
@@ -225,14 +217,16 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
             tileMapManager = new TileMapManager(this);
             soundManager.playClip("menu", true);
             try{
-                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1Map.txt", 1);
-                //tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level2Map.txt");
+                tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1.txt", 1);
+                tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level2Map.txt", 2);
                 //tileMapLvl3 = tileMapManager.loadTileMap("Maps/Level3Map.txt");
-                int w, h;
-                w = tileMapLvl1.getMapWidth();
-                h = tileMapLvl1.getMapHeight();
-                System.out.println ("Width of tilemap " + w);
-                System.out.println ("Height of tilemap " + h);
+                int w1, h1, w2, h2;
+                w1 = tileMapLvl1.getMapWidth();
+                h1 = tileMapLvl1.getMapHeight();
+                w2 = tileMapLvl2.getMapWidth();
+                h2 = tileMapLvl2.getMapHeight();
+                //System.out.println ("Width of tilemap " + w);
+                //System.out.println ("Height of tilemap " + h);
             }
             catch(Exception ex){
                 System.out.println(ex);
@@ -327,10 +321,14 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
                     soundManager.playClip("jump", false);
                 }
                 else
-                    if(keyCode == KeyEvent.VK_ESCAPE){
+                    if(keyCode==KeyEvent.VK_ESCAPE){
                         isRunning = false;        
                         return;                         
                     }
+                    else
+                        if(keyCode==KeyEvent.VK_Z){
+                            tileMapLvl1.attack(this);
+                        }
     }
 
     public void keyReleased(KeyEvent ke){
