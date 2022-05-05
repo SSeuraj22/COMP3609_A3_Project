@@ -119,7 +119,7 @@ public class Santa {
                 DX = 12;
             }
             timeElapsed++;
-            distance = (int) (80 * timeElapsed - 4.9 * timeElapsed * timeElapsed);
+            distance = (int) (60 * timeElapsed - 4.9 * timeElapsed * timeElapsed);
 
             int xOffset = tileMap.getOffsetX();
             int yOffset = tileMap.getOffsetY();
@@ -313,6 +313,7 @@ public class Santa {
             x = tileMWidth - SANTAWIDTH;
             tileMap.stopBackground = true;
         }
+        playerAnim = santaAnimWalk;
     }
 
     public void moveLeft(){
@@ -371,6 +372,7 @@ public class Santa {
             x = 0;
             tileMap.stopBackground = true;
         }
+        playerAnim = santaAnimWalk;
     }
 
     public Image loadImage(String fileName){
