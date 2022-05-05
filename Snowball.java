@@ -36,13 +36,13 @@ public class Snowball extends Rectangle{
     }
 
     public void loadAnim(){
-        Image sball1 = loadImage("Images/Santa/Idle/Idle1.png");
-        Image sball2 = loadImage("Images/Santa/Idle/Idle1.png");
-        Image sball3 = loadImage("Images/Santa/Idle/Idle1.png");
-        Image sball4 = loadImage("Images/Santa/Idle/Idle1.png");
-        Image impact1 = loadImage("Images/Santa/Idle/Idle1.png");
-        Image impact2 = loadImage("Images/Santa/Idle/Idle1.png");
-        Image impact3 = loadImage("Images/Santa/Idle/Idle1.png");
+        Image sball1 = loadImage("Images/Snowball/snowball_01.png");
+        Image sball2 = loadImage("Images/Snowball/snowball_02.png");
+        Image sball3 = loadImage("Images/Snowball/snowball_03.png");
+        Image sball4 = loadImage("Images/Snowball/snowball_04.png");
+        // Image impact1 = loadImage("Images/Santa/Idle/Idle1.png");
+        // Image impact2 = loadImage("Images/Santa/Idle/Idle1.png");
+        // Image impact3 = loadImage("Images/Santa/Idle/Idle1.png");
 
         
         snow.addFrame(sball1, 100);
@@ -50,9 +50,9 @@ public class Snowball extends Rectangle{
         snow.addFrame(sball3, 100);
         snow.addFrame(sball4, 100);
 
-        impact.addFrame(impact1, 100);
-        impact.addFrame(impact2, 100);
-        impact.addFrame(impact3, 100);
+        // impact.addFrame(impact1, 100);
+        // impact.addFrame(impact2, 100);
+        // impact.addFrame(impact3, 100);
     }
 
     public void move(){
@@ -60,9 +60,9 @@ public class Snowball extends Rectangle{
             this.x = this.x + vel;
             curr = snow;
         }
-        if(hit){
-            curr = impact;
-        }
+        // if(hit){
+        //     curr = impact;
+        // }
         if(x > 1920){
             moving = false;
             hidesnow();
@@ -71,11 +71,11 @@ public class Snowball extends Rectangle{
 
     public void update(){
         snow.update();
-        impact.update();
-        if(hit){
-            curr = impact;
-            curr.start();
-        }
+        // impact.update();
+        // if(hit){
+        //     curr = impact;
+        //     curr.start();
+        // }
 
         if(hit){
             hit = false;
