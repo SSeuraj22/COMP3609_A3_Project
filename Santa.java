@@ -144,7 +144,7 @@ public class Santa {
                 DX = 12;
             }
             timeElapsed++;
-            distance = (int) (60 * timeElapsed - 4.9 * timeElapsed * timeElapsed);
+            distance = (int) (70 * timeElapsed - 4.9 * timeElapsed * timeElapsed);
 
             int xOffset = tileMap.getOffsetX();
             int yOffset = tileMap.getOffsetY();
@@ -274,7 +274,7 @@ public class Santa {
     private int advanceTime(int currentTime, int distance){
         int s;
         while(true){
-            s = (int) (80 * currentTime - 4.9 * currentTime * currentTime);
+            s = (int) (70 * currentTime - 4.9 * currentTime * currentTime);
             if(s<distance){
                 return currentTime;
             }
