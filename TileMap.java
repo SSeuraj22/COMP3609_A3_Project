@@ -25,10 +25,18 @@ public class TileMap {
         tiles = new Image[mWidth][mHeight];
         dimension = window.getSize();
         santa = new Santa(window, this);
+        // enemy1 = new Enemy(window, this);
+        // enemy2 = new Enemy(window, this);
 
         Animation santaAnim = santa.getAnimation();
         int santaHeight = santaAnim.getHeight();
         //System.out.println("Santa Height: " + santaHeight);
+
+        // Animation enemy1Anim = enemy1.getAnimation();
+        // int enemy1H = enemy1Anim.getHeight();
+
+        // Animation enemy2Anim = enemy2.getAnimation();
+        // int enemy2H = enemy2Anim.getHeight();
 
         //to set santa coordinates on the screen for placement
         int x = 192;
@@ -36,6 +44,15 @@ public class TileMap {
         santa.setX(x);
         santa.setY(y);
         //santa.setFloorY(y - santaHeight);
+
+        // enemy1.setX(200);
+        // enemy2.setX(500);
+
+        // enemy1.setY(200);
+        // enemy2.setY(200);
+        // enemy1.setY(dimension.height - TILE_SIZE*tileNumRow - enemy1H);
+        // enemy2.setY(dimension.height - TILE_SIZE*tileNumRow - enemy2H);
+
     }
 
     public void attack(JFrame jf){
@@ -135,6 +152,8 @@ public class TileMap {
         }
         //draw santa
         santa.draw(g2, Math.round(santa.getX())+xOffset, Math.round(santa.getY()));
+        // enemy1.draw(g2,  Math.round(enemy1.getX()), Math.round(enemy1.getY()));
+        // enemy2.draw(g2,  Math.round(enemy2.getX()), Math.round(enemy2.getY()));
         
         
     }

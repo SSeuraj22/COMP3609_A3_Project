@@ -61,10 +61,6 @@ public class Snowball{
         
     }
 
-    public void moveLeft(){
-        x = x - dx;
-    }
-
     public void update(){
         snowball.update();
     }
