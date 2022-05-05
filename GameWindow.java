@@ -223,7 +223,7 @@ public class GameWindow extends JFrame implements Runnable, KeyListener, MouseLi
             soundManager.playClip("menu", true);
             try{
                 tileMapLvl1 = tileMapManager.loadTileMap("Maps/Level1Map.txt", 1);
-                tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level1.txt", 2);
+                tileMapLvl2 = tileMapManager.loadTileMap("Maps/Level2Map.txt", 2);
                 int w1, h1, w2, h2;
                 w1 = tileMapLvl1.getMapWidth();
                 h1 = tileMapLvl1.getMapHeight();
